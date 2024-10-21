@@ -13,12 +13,21 @@
 <body>
     <div id="webstore">
         <h1>{{ message }}</h1>
+        <div v-for="lesson in lessons">
+            <figure>
+                <i v-bind:class="lesson.icon" style="font-size: 50px;"></i>
+            </figure>
+            <h3 v-text="lesson.subject"></h3>
+            <p v-text="lesson.location"></p>
+            <p>Price {{ lesson.price }}</p>
+        </div>
     </div>
     <script>
         let webstore = new Vue({
             el: '#webstore',
             data: {
                 message: 'Lessons',
+                lessons: lessons,
             }
         })
     </script>
