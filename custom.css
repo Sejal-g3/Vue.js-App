@@ -1,0 +1,12 @@
+/* CSS for the app */
+
+.font {
+    font-family: 'Hunck', sans-serif;
+    text-decoration: none;
+    color: black;
+}
+
+.fit-content {
+    width: 300px;
+    padding: 10px
+}

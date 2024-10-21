@@ -16,12 +16,28 @@ let lessons = [
         icon: "fa-solid fa-pen"
     },
     {
+        id: 2011,
+        subject: "DIY Projects",
+        location: "Mauritius",
+        price: 2.99,
+        spaces: 5,
+        icon: "fa-solid fa-image"
+    },
+    {
         id: 1003,
         subject: "Coding",
         location: "London",
         price: 2500,
         spaces: 5,
         icon: "fa-solid fa-laptop"
+    },
+    {
+        id: 2002,
+        subject: "English",
+        location: "Mauritius",
+        price: 1000,
+        spaces: 5,
+        icon: "fa-solid fa-pen"
     },
     {
         id: 1004,
@@ -40,9 +56,9 @@ let lessons = [
         icon: "fa-solid fa-palette"
     },
     {
-        id: 1006,
+        id: 2006,
         subject: "Dance",
-        location: "London",
+        location: "Mauritius",
         price: 2.99,
         spaces: 5,
         icon: "fa-solid fa-image"
@@ -104,14 +120,6 @@ let lessons = [
         icon: "fa-solid fa-calculator"
     },
     {
-        id: 2002,
-        subject: "English",
-        location: "Mauritius",
-        price: 1000,
-        spaces: 5,
-        icon: "fa-solid fa-pen"
-    },
-    {
         id: 2003,
         subject: "Coding",
         location: "Mauritius",
@@ -134,14 +142,6 @@ let lessons = [
         price: 1500,
         spaces: 5,
         icon: "fa-solid fa-palette"
-    },
-    {
-        id: 2006,
-        subject: "Dance",
-        location: "Mauritius",
-        price: 2.99,
-        spaces: 5,
-        icon: "fa-solid fa-image"
     },
     {
         id: 2007,
@@ -176,17 +176,17 @@ let lessons = [
         icon: "fa-solid fa-shirt"
     },
     {
-        id: 2011,
-        subject: "DIY Projects",
+        id: 2012,
+        subject: "Drama",
         location: "Mauritius",
         price: 2.99,
         spaces: 5,
         icon: "fa-solid fa-image"
     },
     {
-        id: 2012,
-        subject: "Drama",
-        location: "Mauritius",
+        id: 1006,
+        subject: "Dance",
+        location: "London",
         price: 2.99,
         spaces: 5,
         icon: "fa-solid fa-image"
