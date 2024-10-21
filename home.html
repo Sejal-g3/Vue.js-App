@@ -11,22 +11,49 @@
     <title>After School Classes and Activities</title>
 </head>
 <body>
-    <div id="webstore">
-        <h1>{{ message }}</h1>
-        <div v-for="lesson in lessons">
-            <figure>
-                <i v-bind:class="lesson.icon" style="font-size: 50px;"></i>
-            </figure>
-            <h3 v-text="lesson.subject"></h3>
-            <p v-text="lesson.location"></p>
-            <p>Price {{ lesson.price }}</p>
+    <div class="container-fluid d-flex" id="webstore">
+        <div class="bg-primary">
+            <p class="fs-5 fw-bold">{{ sort_section }}</p>
+
+            <button>Clear</button>
+            <br>
+            
+            <input type="radio" id="subject" value="Subject">
+            <label for="subject">Subject</label>
+            <br>
+            <input type="radio" id="location" value="Location">
+            <label for="location">Location</label>
+            <br>
+            <input type="radio" id="price" value="Price">
+            <label for="price">Price</label>
+            <br>
+            <input type="radio" id="availability" value="Availability">
+            <label for="availability">Availability</label>
+            <br><br>
+            <input type="radio" id="ascending" value="Ascending">
+            <label for="ascending">Ascending</label>
+            <br>
+            <input type="radio" id="descending" value="Descending">
+            <label for="descending">Descending</label>
+        </div>
+        <div class="bg-success">
+            <h1>{{ lesson_section }}</h1>
+            <div v-for="lesson in lessons">
+                <figure>
+                    <i v-bind:class="lesson.icon" style="font-size: 50px;"></i>
+                </figure>
+                <h3 v-text="lesson.subject"></h3>
+                <p v-text="lesson.location"></p>
+                <p>Price {{ lesson.price }}</p>
+            </div>
         </div>
     </div>
     <script>
         let webstore = new Vue({
             el: '#webstore',
             data: {
-                message: 'Lessons',
+                lesson_section: 'Lessons',
+                sort_section: 'Sort by',
                 lessons: lessons,
             }
         })
