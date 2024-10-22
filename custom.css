@@ -10,3 +10,17 @@
     width: 300px;
     padding: 10px
 }
+
+.button-1 {
+    border: 2px solid #dbdbdb;
+    background-color: transparent;
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button-1:hover {
+    background-color: #11ccf1; /* Change this to the color you want on hover */
+    color: white;
+    border-color: #11ccf1;
+}

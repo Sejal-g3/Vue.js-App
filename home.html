@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
     <link href="https://fonts.cdnfonts.com/css/hunck" rel="stylesheet">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
-    <link rel="stylesheet" href="custom.css"></script>
+    <link rel="stylesheet" href="custom.css">
     <script src="lessons.js"></script>
     <title>After School Classes and Activities</title>
 </head>
@@ -22,7 +22,7 @@
             <div class="mt-5 fit-content">
                 <p class="fs-5 fw-bold font">{{ sort_section }}</p>
                 
-                <button class="btn btn-outline-secondary btn-sm">Clear</button>
+                <button class="btn button-1 rounded-pill">Clear</button>
                 <br><br>
                 
                 <input type="radio" id="subject" value="Subject">
@@ -51,9 +51,13 @@
                         <div class="card h-100 border border-secondary bg-transparent">
                             <div class="card-body text-center">
                                 <i v-bind:class="lesson.icon" style="font-size: 50px;"></i>
-                                <h3 v-text="lesson.subject"></h3>
-                                <p v-text="lesson.location"></p>
-                                <p>Price {{ lesson.price }}</p>
+                                <h4 class="font" v-text="lesson.subject"></h4>
+                                <p>Location: {{ lesson.location }}</p>
+                                <p>Price £  {{ lesson.price }}</p>
+                                <p>Spaces: {{ lesson.spaces }}</p>
+
+                                <button class="btn button-1 rounded-pill" v-if="canAddToCart(lesson)" v-on:click="addItemToCart(lesson)">Add to Cart</button>
+                                <button class="rounded-pill" v-else :disabled="true">Add to Cart</button>
                             </div>
                         </div>
                     </div>    
@@ -68,6 +72,32 @@
                 lesson_section: 'Lessons',
                 sort_section: 'Sort by',
                 lessons: lessons,
+                cart: []
+            },
+            methods:{
+                addItemToCart(lesson) {
+                    if (this.canAddToCart(lesson)) {
+                        this.cart.push(lesson.id);
+                        lesson.spaces--;
+                    }
+                },
+                cartCount(id) {
+                    let count = 0;
+                    for(let i = 0; i < this.cart.length; i++) { 
+                        if (this.cart[i] === id) {
+                            count++;
+                        }
+                    }
+                    return count;
+                },
+                canAddToCart(lesson){
+                    return lesson.spaces > 0;
+                }
+            },
+            computed:{
+                itemInCart:function() {
+                    return this.cart.length || "0";
+                }
             }
         })
     </script>
