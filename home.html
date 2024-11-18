@@ -16,9 +16,11 @@
     <div id="webstore">
         <app-nav class="d-flex justify-content-between align-items-center p-3">
             <a class="fs-1 fw-bold font" href="#">After School Classes and Activities</a>
+            <button class="btn button-2 rounded-pill" v-if="itemInCart > 0" v-on:click="showCart">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
+            <button v-if="itemInCart < 0 && !showLesson" class="btn button-1 rounded-pill mt-3" v-on:click="showCart = !showCart">Back to Lessons</button>
         </app-nav>
         
-        <div class="container-fluid d-flex">
+        <div v-if="showLesson" class="container-fluid d-flex">
             <div class="mt-5 fit-content">
                 <p class="fs-5 fw-bold font">{{ sort_section }}</p>
                 
@@ -64,7 +66,29 @@
                 </div>
             </div>
         </div>
+
+        <div v-else>
+            <h2 class="fw-bold font">Cart</h2>
+            <div class="row mt-4">
+                <div class="col-2 mb-4 bg-white" v-for="item in cart" :key="item.id">
+                    <div class="card h-100 border border-secondary bg-transparent">
+                        <div class="card-body text-center">
+                            <i v-bind:class="item.icon" style="font-size: 50px;"></i>
+                            <h4 class="font" v-text="item.subject"></h4>
+                            <p>Location: {{ item.location }}</p>
+                            <p>Price £ {{ item.price }}</p>
+                            <p>Spaces: {{ item.spaces }}</p>
+        
+                            <button class="btn button-1 rounded-pill" v-on:click="removeItemFromCart(item)">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script>
         let webstore = new Vue({
             el: '#webstore',
@@ -72,12 +96,13 @@
                 lesson_section: 'Lessons',
                 sort_section: 'Sort by',
                 lessons: lessons,
+                showLesson: true,
                 cart: []
             },
             methods:{
                 addItemToCart(lesson) {
                     if (this.canAddToCart(lesson)) {
-                        this.cart.push(lesson.id);
+                        this.cart.push(lesson);
                         lesson.spaces--;
                     }
                 },
@@ -92,7 +117,18 @@
                 },
                 canAddToCart(lesson){
                     return lesson.spaces > 0;
-                }
+                },
+                showCart(){
+                    if(this.showLesson){
+                        this.showLesson = false;
+                    }else{
+                        this.showLesson = true;
+                    }
+                },
+                removeItemFromCart(item) {
+                    item.spaces += 1;
+                    this.cart = this.cart.filter((lesson) => lesson.id !== item.id);
+                },
             },
             computed:{
                 itemInCart:function() {
