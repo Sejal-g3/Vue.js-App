@@ -14,16 +14,14 @@
 </head>
 <body>
     <div id="webstore">
-        <app-nav class="d-flex justify-content-between align-items-center p-3">
+        <app-nav class="d-flex justify-content-between align-items-center p-3 border-bottom rounded-4 border-3 sticky-top bg-white">
             <a class="fs-1 fw-bold font" href="#">After School Classes and Activities</a>
             <button class="btn button-2 rounded-pill" v-if="itemInCart > 0" v-on:click="showCart">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
             <button v-if="itemInCart < 0 && !showLesson" class="btn button-1 rounded-pill mt-3" v-on:click="showCart = !showCart">Back to Lessons</button>
         </app-nav>
 
-        
-
         <div v-if="showLesson">
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center mt-4">
                 <input type="text" id="search" class="form-control border-0 border-bottom w-50" placeholder="Search" v-model="searchQuery">
             </div>
             <div class="container-fluid d-flex">
@@ -72,7 +70,7 @@
                         </div>
                         
                         <div class="col-3 mb-4" v-for="index in placeholderColumns" :key="'placeholder-' + index">
-                            
+
                         </div>
                     </div>
                 </div>
