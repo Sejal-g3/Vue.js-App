@@ -5,7 +5,7 @@ let lessons = [
         location: "London",
         price: 2000,
         spaces: 5,
-        icon: "fa-solid fa-calculator"
+        image: "images/math.jpg"
     },
     {
         id: 1002,
@@ -13,7 +13,7 @@ let lessons = [
         location: "London",
         price: 1000,
         spaces: 5,
-        icon: "fa-solid fa-pen"
+        image: "images/english.jpg"
     },
     {
         id: 2011,
@@ -21,7 +21,7 @@ let lessons = [
         location: "Mauritius",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-image"
+        image: "images/diy-projects.png"
     },
     {
         id: 1003,
@@ -29,7 +29,7 @@ let lessons = [
         location: "London",
         price: 2500,
         spaces: 5,
-        icon: "fa-solid fa-laptop"
+        image: "images/coding.jpg"
     },
     {
         id: 2002,
@@ -37,7 +37,7 @@ let lessons = [
         location: "Mauritius",
         price: 1000,
         spaces: 5,
-        icon: "fa-solid fa-pen"
+        image: "images/english.jpg"
     },
     {
         id: 1004,
@@ -45,7 +45,7 @@ let lessons = [
         location: "London",
         price: 1500,
         spaces: 5,
-        icon: "fa-solid fa-music"
+        image: "images/music.jpg"
     },
     {
         id: 1005,
@@ -53,7 +53,7 @@ let lessons = [
         location: "London",
         price: 1500,
         spaces: 5,
-        icon: "fa-solid fa-palette"
+        image: "images/art.jpg"
     },
     {
         id: 2006,
@@ -61,7 +61,7 @@ let lessons = [
         location: "Mauritius",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-image"
+        image: "images/dance.jpg"
     },
     {
         id: 1007,
@@ -69,7 +69,7 @@ let lessons = [
         location: "London",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-image"
+        image: "images/martial-arts.jpg"
     },
     {
         id: 1008,
@@ -77,7 +77,7 @@ let lessons = [
         location: "London",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-cake-candles"
+        image: "images/baking.jpg"
     },
     {
         id: 1009,
@@ -85,7 +85,7 @@ let lessons = [
         location: "London",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-medal"
+        image: "images/sports.jpg"
     },
     {
         id: 1010,
@@ -93,7 +93,7 @@ let lessons = [
         location: "London",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-shirt"
+        image: "images/fashion.png"
     },
     {
         id: 1011,
@@ -101,7 +101,7 @@ let lessons = [
         location: "London",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-image"
+        image: "images/diy-projects.png"
     },
     {
         id: 1012,
@@ -109,7 +109,7 @@ let lessons = [
         location: "London",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-image"
+        image: "images/drama.png"
     },
     {
         id: 2001,
@@ -117,7 +117,7 @@ let lessons = [
         location: "Mauritius",
         price: 2000,
         spaces: 5,
-        icon: "fa-solid fa-calculator"
+        image: "images/math.jpg"
     },
     {
         id: 2003,
@@ -125,7 +125,7 @@ let lessons = [
         location: "Mauritius",
         price: 2500,
         spaces: 5,
-        icon: "fa-solid fa-laptop"
+        image: "images/coding.jpg"
     },
     {
         id: 2004,
@@ -133,7 +133,7 @@ let lessons = [
         location: "Mauritius",
         price: 1500,
         spaces: 5,
-        icon: "fa-solid fa-music"
+        image: "images/music.jpg"
     },
     {
         id: 2005,
@@ -141,7 +141,7 @@ let lessons = [
         location: "Mauritius",
         price: 1500,
         spaces: 5,
-        icon: "fa-solid fa-palette"
+        image: "images/art.jpg"
     },
     {
         id: 2007,
@@ -149,7 +149,7 @@ let lessons = [
         location: "Mauritius",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-image"
+        image: "images/martial-arts.jpg"
     },
     {
         id: 2008,
@@ -157,7 +157,7 @@ let lessons = [
         location: "Mauritius",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-cake-candles"
+        image: "images/baking.jpg"
     },
     {
         id: 2009,
@@ -165,7 +165,7 @@ let lessons = [
         location: "Mauritius",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-medal"
+        image: "images/sports.jpg"
     },
     {
         id: 2010,
@@ -173,7 +173,7 @@ let lessons = [
         location: "Mauritius",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-shirt"
+        image: "images/fashion.png"
     },
     {
         id: 2012,
@@ -181,7 +181,7 @@ let lessons = [
         location: "Mauritius",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-image"
+        image: "images/drama.png"
     },
     {
         id: 1006,
@@ -189,6 +189,6 @@ let lessons = [
         location: "London",
         price: 2.99,
         spaces: 5,
-        icon: "fa-solid fa-image"
+        image: "images/dance.jpg"
     },
 ]

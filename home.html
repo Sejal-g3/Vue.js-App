@@ -52,7 +52,7 @@
                     <div class="col-2 mb-4 bg-white" v-for="lesson in lessons">
                         <div class="card h-100 border border-secondary bg-transparent">
                             <div class="card-body text-center">
-                                <i v-bind:class="lesson.icon" style="font-size: 50px;"></i>
+                                <img v-bind:src="lesson.image" style="width:120px; height:120px;">
                                 <h4 class="font" v-text="lesson.subject"></h4>
                                 <p>Location: {{ lesson.location }}</p>
                                 <p>Price £  {{ lesson.price }}</p>
@@ -73,7 +73,7 @@
                 <div class="col-2 mb-4 bg-white" v-for="item in cart" :key="item.id">
                     <div class="card h-100 border border-secondary bg-transparent">
                         <div class="card-body text-center">
-                            <i v-bind:class="item.icon" style="font-size: 50px;"></i>
+                            <img v-bind:src="item.image" style="width:120px; height:120px;">
                             <h4 class="font" v-text="item.subject"></h4>
                             <p>Location: {{ item.location }}</p>
                             <p>Price £ {{ item.price }}</p>
@@ -107,7 +107,7 @@
                             <small v-if="phoneError" class="text-danger">{{ phoneError }}</small>
                         </div>
                     </div>
-                    <button class="mt-5 btn btn-success text-center" type="button" :disabled="!checkout.name || !checkout.phone" v-on:click="checkOut">Checkout</button>
+                    <button class="mt-5 mb-5 btn btn-success text-center" type="button" :disabled="!checkout.name || !checkout.phone" v-on:click="checkOut">Checkout</button>
                 </form>
             </div>
             
