@@ -19,52 +19,62 @@
             <button class="btn button-2 rounded-pill" v-if="itemInCart > 0" v-on:click="showCart">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
             <button v-if="itemInCart < 0 && !showLesson" class="btn button-1 rounded-pill mt-3" v-on:click="showCart = !showCart">Back to Lessons</button>
         </app-nav>
+
         
-        <div v-if="showLesson" class="container-fluid d-flex">
-            <div class="mt-5 fit-content w-50">
-                <p class="fs-5 fw-bold font">{{ sort_section }}</p>
-                
-                <div>
-                    <button class="btn button-1 rounded-pill" v-on:click="clearSorting">Clear</button>
-                    <br><br>
-                
-                    <input type="radio" id="subject" value="subject" v-model="sortOption">
-                    <label for="subject">Subject</label>
-                    <br>
-                    <input type="radio" id="location" value="location" v-model="sortOption">
-                    <label for="location">Location</label>
-                    <br>
-                    <input type="radio" id="price" value="price" v-model="sortOption">
-                    <label for="price">Price</label>
-                    <br>
-                    <input type="radio" id="availability" value="availability" v-model="sortOption">
-                    <label for="availability">Availability</label>
-                    <br><br>
-                    <input type="radio" id="ascending" value="ascending" v-model="sortOrder">
-                    <label for="ascending">Ascending</label>
-                    <br>
-                    <input type="radio" id="descending" value="descending" v-model="sortOrder">
-                    <label for="descending">Descending</label>
-                </div>                
+
+        <div v-if="showLesson">
+            <div class="d-flex justify-content-center">
+                <input type="text" id="search" class="form-control border-0 border-bottom w-50" placeholder="Search" v-model="searchQuery">
             </div>
+            <div class="container-fluid d-flex">
+                <div class="mt-5 fit-content w-50">
+                    <p class="fs-5 fw-bold font">{{ sort_section }}</p>
+                    <div>
+                        <button class="btn button-1 rounded-pill" v-on:click="clearSorting">Clear</button>
+                        <br><br>
+            
+                        <input type="radio" id="subject" value="Subject" v-model="sortOption">
+                        <label for="subject">Subject</label>
+                        <br>
+                        <input type="radio" id="location" value="Location" v-model="sortOption">
+                        <label for="location">Location</label>
+                        <br>
+                        <input type="radio" id="price" value="Price" v-model="sortOption">
+                        <label for="price">Price</label>
+                        <br>
+                        <input type="radio" id="availability" value="Availability" v-model="sortOption">
+                        <label for="availability">Availability</label>
+                        <br><br>
+                        <input type="radio" id="ascending" value="Ascending" v-model="sortOrder">
+                        <label for="ascending">Ascending</label>
+                        <br>
+                        <input type="radio" id="descending" value="Descending" v-model="sortOrder">
+                        <label for="descending">Descending</label>
+                    </div>                
+                </div>
 
-            <div class="mt-1">
-                <h2 class="fw-bold font">{{ lesson_section }}</h2>
-                <div class="row mt-4">
-                    <div class="col-3 mb-4" v-for="lesson in sortedLessons">
-                        <div class="card h-100 border border-secondary bg-transparent">
-                            <div class="card-body text-center">
-                                <img v-bind:src="lesson.image" style="width:100px; height:100px;">
-                                <h4 class="font" v-text="lesson.subject"></h4>
-                                <p>Location: {{ lesson.location }}</p>
-                                <p>Price £  {{ lesson.price }}</p>
-                                <p>Spaces: {{ lesson.spaces }}</p>
+                <div class="mt-1">
+                    <h2 class="fw-bold font">{{ lesson_section }}</h2>
+                    <div class="row mt-4">
+                        <div class="col-3 mb-4" v-for="lesson in sortedLessons">
+                            <div class="card h-100 border border-secondary bg-transparent">
+                                <div class="card-body text-center">
+                                    <img v-bind:src="lesson.image" style="width:100px; height:100px;">
+                                    <h4 class="font" v-text="lesson.subject"></h4>
+                                    <p>Location: {{ lesson.location }}</p>
+                                    <p>Price £  {{ lesson.price }}</p>
+                                    <p>Spaces: {{ lesson.spaces }}</p>
 
-                                <button class="btn button-1 rounded-pill" v-if="canAddToCart(lesson)" v-on:click="addItemToCart(lesson)">Add to Cart</button>
-                                <button class="rounded-pill" v-else :disabled="true">Add to Cart</button>
+                                    <button class="btn button-1 rounded-pill" v-if="canAddToCart(lesson)" v-on:click="addItemToCart(lesson)">Add to Cart</button>
+                                    <button class="rounded-pill" v-else :disabled="true">Add to Cart</button>
+                                </div>
                             </div>
                         </div>
-                    </div>    
+                        
+                        <div class="col-3 mb-4" v-for="index in placeholderColumns" :key="'placeholder-' + index">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,8 +122,6 @@
                     <button class="mt-5 mb-5 btn btn-success text-center" type="button" :disabled="!checkout.name || !checkout.phone" v-on:click="checkOut">Checkout</button>
                 </form>
             </div>
-            
-            
         </div>
     </div>
 
@@ -132,6 +140,7 @@
                 },
                 sortOption: '',
                 sortOrder: '',
+                searchQuery: '',
             },
             methods:{
                 addItemToCart(lesson) {
@@ -197,11 +206,24 @@
                     return this.cart.length || "0";
                 },
                 sortedLessons() {
-                    let sorted = [...this.lessons]; // Copy the lessons array to avoid mutating the original array
+                    let filtered = [...this.lessons]; // Copy the lessons array to avoid mutating the original array
+
+                    // Apply search filter if there's a query
+                    if (this.searchQuery) {
+                        const query = this.searchQuery.toLowerCase();
+                        filtered = filtered.filter(lesson => {
+                            return (
+                                lesson.subject.toLowerCase().includes(query) || 
+                                lesson.location.toLowerCase().includes(query) || 
+                                lesson.price.toString().includes(query) || 
+                                lesson.spaces.toString().includes(query)
+                            );
+                        });
+                    }
 
                     // Sorting based on selected criteria
                     if (this.sortOption && this.sortOrder) {
-                        sorted.sort((a, b) => {
+                        filtered.sort((a, b) => {
                             // Check the sorting option (e.g., subject, location, price, availability)
                             if (this.sortOption === 'Subject') {
                                 return this.sortOrder === 'Ascending' 
@@ -227,7 +249,14 @@
                         });
                     }
 
-                    return sorted;
+                    return filtered;
+                },
+                placeholderColumns() {
+                    // Calculate placeholders to keep 4 columns
+                    const lessonsCount = this.sortedLessons.length;
+                    const columns = 4; // Number of columns in the grid
+                    const placeholders = (columns - (lessonsCount % columns)) % columns;
+                    return Array.from({ length: placeholders });
                 }
             }
         })
