@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <div v-else>
+        <div v-else class="ms-5">
             <h2 class="fw-bold font">Cart</h2>
             <div class="row mt-4">
                 <div class="col-2 mb-4 bg-white" v-for="item in cart" :key="item.id">
@@ -79,13 +79,39 @@
                             <p>Price £ {{ item.price }}</p>
                             <p>Spaces: {{ item.spaces }}</p>
         
-                            <button class="btn button-1 rounded-pill" v-on:click="removeItemFromCart(item)">
-                                Remove
-                            </button>
+                            <button class="btn button-1 rounded-pill" v-on:click="removeItemFromCart(item)">Remove</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <h2 class="fw-bold font text-center">Checkout</h2>
+            <div class="text-center mt-4">
+                <form>
+                    <div class="row text-center">
+                        <div class="col-6 d-flex">
+                            <label for="name" class="form-label fw-bold me-2">Name:</label>
+                            <input type="text" id="name" class="form-control border-0 border-bottom w-50" v-model="checkout.name" v-on:input="validateName">
+                        </div>
+                        
+                        <div class="col-6 d-flex">
+                            <label for="phone" class="form-label fw-bold me-2">Phone number:</label>
+                            <input type="text" id="phone" class="form-control border-0 border-bottom w-50" v-model="checkout.phone" v-on:input="validatePhone">
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-6 d-flex">
+                            <small v-if="nameError" class="text-danger">{{ nameError }}</small>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <small v-if="phoneError" class="text-danger">{{ phoneError }}</small>
+                        </div>
+                    </div>
+                    <button class="mt-5 btn btn-success text-center" type="button" :disabled="!checkout.name || !checkout.phone" v-on:click="checkOut">Checkout</button>
+                </form>
+            </div>
+            
+            
         </div>
     </div>
 
@@ -97,7 +123,11 @@
                 sort_section: 'Sort by',
                 lessons: lessons,
                 showLesson: true,
-                cart: []
+                cart: [],
+                checkout: {
+                    name: '',
+                    phone: ''
+                },
             },
             methods:{
                 addItemToCart(lesson) {
@@ -129,11 +159,35 @@
                     item.spaces += 1;
                     this.cart = this.cart.filter((lesson) => lesson.id !== item.id);
                 },
+                validateName() {
+                    const regex = /^[a-zA-Z]*$/;
+                    if (!regex.test(this.checkout.name)) {
+                        this.nameError = 'Name can only contain letters.';
+                        this.checkout.name = this.checkout.name.replace(/[^a-zA-Z]/g, ''); // Remove invalid characters
+                    } else {
+                        this.nameError = ''; // Clear error if valid
+                    }
+                },
+                validatePhone() {
+                    const regex = /^[0-9]*$/;
+                    if (!regex.test(this.checkout.phone)) {
+                        this.phoneError = 'Phone number can only contain digits.';
+                        this.checkout.phone = this.checkout.phone.replace(/[^0-9]/g, ''); // Remove invalid characters
+                    } else if (this.checkout.phone.length > 15) {
+                        this.phoneError = 'Phone number cannot exceed 15 digits.';
+                        this.checkout.phone = this.checkout.phone.slice(0, 15); // Truncate to 15 digits if exceeds
+                    } else {
+                        this.phoneError = ''; // Clear error if valid
+                    }
+                },
+                checkOut() {
+                    alert('Your order has been placed successfully!')
+                },
             },
             computed:{
                 itemInCart:function() {
                     return this.cart.length || "0";
-                }
+                },
             }
         })
     </script>
