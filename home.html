@@ -21,38 +21,40 @@
         </app-nav>
         
         <div v-if="showLesson" class="container-fluid d-flex">
-            <div class="mt-5 fit-content">
+            <div class="mt-5 fit-content w-50">
                 <p class="fs-5 fw-bold font">{{ sort_section }}</p>
                 
-                <button class="btn button-1 rounded-pill">Clear</button>
-                <br><br>
+                <div>
+                    <button class="btn button-1 rounded-pill" v-on:click="clearSorting">Clear</button>
+                    <br><br>
                 
-                <input type="radio" id="subject" value="Subject">
-                <label for="subject">Subject</label>
-                <br>
-                <input type="radio" id="location" value="Location">
-                <label for="location">Location</label>
-                <br>
-                <input type="radio" id="price" value="Price">
-                <label for="price">Price</label>
-                <br>
-                <input type="radio" id="availability" value="Availability">
-                <label for="availability">Availability</label>
-                <br><br>
-                <input type="radio" id="ascending" value="Ascending">
-                <label for="ascending">Ascending</label>
-                <br>
-                <input type="radio" id="descending" value="Descending">
-                <label for="descending">Descending</label>
+                    <input type="radio" id="subject" value="subject" v-model="sortOption">
+                    <label for="subject">Subject</label>
+                    <br>
+                    <input type="radio" id="location" value="location" v-model="sortOption">
+                    <label for="location">Location</label>
+                    <br>
+                    <input type="radio" id="price" value="price" v-model="sortOption">
+                    <label for="price">Price</label>
+                    <br>
+                    <input type="radio" id="availability" value="availability" v-model="sortOption">
+                    <label for="availability">Availability</label>
+                    <br><br>
+                    <input type="radio" id="ascending" value="ascending" v-model="sortOrder">
+                    <label for="ascending">Ascending</label>
+                    <br>
+                    <input type="radio" id="descending" value="descending" v-model="sortOrder">
+                    <label for="descending">Descending</label>
+                </div>                
             </div>
 
             <div class="mt-1">
                 <h2 class="fw-bold font">{{ lesson_section }}</h2>
                 <div class="row mt-4">
-                    <div class="col-2 mb-4 bg-white" v-for="lesson in lessons">
+                    <div class="col-3 mb-4" v-for="lesson in sortedLessons">
                         <div class="card h-100 border border-secondary bg-transparent">
                             <div class="card-body text-center">
-                                <img v-bind:src="lesson.image" style="width:120px; height:120px;">
+                                <img v-bind:src="lesson.image" style="width:100px; height:100px;">
                                 <h4 class="font" v-text="lesson.subject"></h4>
                                 <p>Location: {{ lesson.location }}</p>
                                 <p>Price £  {{ lesson.price }}</p>
@@ -128,6 +130,8 @@
                     name: '',
                     phone: ''
                 },
+                sortOption: '',
+                sortOrder: '',
             },
             methods:{
                 addItemToCart(lesson) {
@@ -159,6 +163,10 @@
                     item.spaces += 1;
                     this.cart = this.cart.filter((lesson) => lesson.id !== item.id);
                 },
+                clearSorting() {
+                    this.sortOption = '';
+                    this.sortOrder = '';
+                },
                 validateName() {
                     const regex = /^[a-zA-Z]*$/;
                     if (!regex.test(this.checkout.name)) {
@@ -188,6 +196,39 @@
                 itemInCart:function() {
                     return this.cart.length || "0";
                 },
+                sortedLessons() {
+                    let sorted = [...this.lessons]; // Copy the lessons array to avoid mutating the original array
+
+                    // Sorting based on selected criteria
+                    if (this.sortOption && this.sortOrder) {
+                        sorted.sort((a, b) => {
+                            // Check the sorting option (e.g., subject, location, price, availability)
+                            if (this.sortOption === 'Subject') {
+                                return this.sortOrder === 'Ascending' 
+                                    ? a.subject.localeCompare(b.subject) 
+                                    : b.subject.localeCompare(a.subject);
+                            }
+                            if (this.sortOption === 'Location') {
+                                return this.sortOrder === 'Ascending' 
+                                    ? a.location.localeCompare(b.location) 
+                                    : b.location.localeCompare(a.location);
+                            }
+                            if (this.sortOption === 'Price') {
+                                return this.sortOrder === 'Ascending' 
+                                    ? a.price - b.price 
+                                    : b.price - a.price;
+                            }
+                            if (this.sortOption === 'Availability') {
+                                return this.sortOrder === 'Ascending' 
+                                    ? a.spaces - b.spaces 
+                                    : b.spaces - a.spaces;
+                            }
+                            return 0; // Return 0 if no sorting option selected
+                        });
+                    }
+
+                    return sorted;
+                }
             }
         })
     </script>
