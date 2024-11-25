@@ -19,7 +19,7 @@
             <app-nav class="d-flex justify-content-between align-items-center p-3 border-bottom rounded-4 border-3 sticky-top bg-white">
                 <a class="fs-1 fw-bold font" href="#">After School Classes and Activities</a>
                 
-                <input type="text" id="search" class="form-control border-0 border-bottom w-25" placeholder="Search" v-model="searchQuery">
+                <input type="text" id="search" class="form-control border-0 border-bottom w-25" placeholder="Search" v-on:input="fetchLessons(searchQuery)">
                 
                 <button class="btn button-2 rounded-pill" v-if="itemInCart > 0" v-on:click="showCart">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
                 <button class="btn rounded-pill" v-else :disabled="true">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
@@ -121,8 +121,6 @@
                     </form>
                 </div>
             </div>
-
-            
         </div>
     </div>
 
@@ -141,14 +139,11 @@
                 },
                 sortOption: '',
                 sortOrder: '',
-                searchQuery: '',
+                searchTerm: '',
             },
             created: function() {
-                fetch("http://localhost:3000/collections/lessons").then(
-                    function(response) {
-                        response.json().then(function(json) {webstore.lessons = json;})}
-                     );
-        },
+                this.fetchLessons();
+            },
             methods:{
                 addItemToCart(lesson) {
                     if (this.canAddToCart(lesson)) {
@@ -204,29 +199,121 @@
                         this.phoneError = ''; // Clear error if valid
                     }
                 },
-                checkOut() {
-                    alert('Your order has been placed successfully!')
+                fetchLessons(){
+                    fetch("http://localhost:3000/collections/lessons")
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("Failed to fetch lessons");
+                            }
+                            return response.json();
+                        })
+                        .then(json => {
+                            webstore.lessons = json;
+                        })
+                        .catch(error => {
+                            console.error("Error fetching lessons:", error);
+                            alert("Unable to fetch lessons. Please try again later.");
+                        })
+                    ;    
                 },
+                saveOrder(orderDetails) {
+                    fetch("http://localhost:3000/collections/orders", {
+                        method: "POST",
+                        headers: {"Content-Type": "application/json",},
+                        body: JSON.stringify(orderDetails),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Failed to save order");
+                        }
+                        return response.json();
+                    })
+                    .then(json => {
+                        alert("Order placed successfully!");
+                        this.cart = []; // Clear cart after successful order
+                        this.checkout.name = "";
+                        this.checkout.phone = "";
+                    })
+                    .catch(error => {
+                        console.error("Error saving order:", error);
+                        alert("Unable to place the order. Please try again.");
+                    });
+                },
+                checkOut() {
+                    if (this.cart.length > 0) {
+                        const orderDetails = {
+                            name: this.checkout.name,
+                            phone: this.checkout.phone,
+                            items: this.cart,
+                        };
+                        this.saveOrder(orderDetails);
+                        this.updateLessonSpaces();
+                    } else {
+                        alert("Your cart is empty.");
+                    }
+                },
+                updateLessonSpaces() {
+                    const updatePromises = this.cart.map(item => {
+                        return fetch(`http://localhost:3000/collections/lessons/${item.id}`, {
+                            method: "PUT",
+                            headers: {"Content-Type": "application/json",},
+                            body: JSON.stringify({ spaces: item.spaces }),
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Failed to update lesson spaces for ID ${item.id}`);
+                            }
+                            return response.json();
+                        });
+                    });
+
+                    Promise.all(updatePromises)
+                        .then(() => {
+                            alert("Lesson spaces updated successfully!");
+                        })
+                        .catch(error => {
+                            console.error("Error updating lesson spaces:", error);
+                            alert("Failed to update lesson availability.");
+                        });
+                },
+                searchLessons(searchTerm = '') {
+                    fetch(`http://localhost:3000/search?q=${encodeURIComponent(searchTerm)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            webstore.lessons = data;
+                        })
+                        .catch(error => console.error('Error fetching lessons:', error)
+                    );
+                }
             },
             computed:{
                 itemInCart:function() {
                     return this.cart.length || "0";
                 },
+                searchQuery: {
+                    get() {
+                        return this.searchTerm;
+                    },
+                    set(newQuery) {
+                        this.searchTerm = newQuery;
+                        this.fetchLessons(newQuery); // Fetch lessons whenever searchQuery changes
+                    }
+                },
                 sortedLessons() {
                     let filtered = [...this.lessons]; // Copy the lessons array to avoid mutating the original array
 
-                    // Apply search filter if there's a query
-                    if (this.searchQuery) {
-                        const query = this.searchQuery.toLowerCase();
-                        filtered = filtered.filter(lesson => {
-                            return (
-                                lesson.subject.toLowerCase().includes(query) || 
-                                lesson.location.toLowerCase().includes(query) || 
-                                lesson.price.toString().includes(query) || 
-                                lesson.spaces.toString().includes(query)
-                            );
-                        });
-                    }
+                    // // Apply search filter if there's a query
+                    // if (this.searchQuery) {
+                    //     const query = this.searchQuery.toLowerCase();
+                    //     filtered = filtered.filter(lesson => {
+                    //         return (
+                    //             lesson.subject.toLowerCase().includes(query) || 
+                    //             lesson.location.toLowerCase().includes(query) || 
+                    //             lesson.price.toString().includes(query) || 
+                    //             lesson.spaces.toString().includes(query)
+                    //         );
+                    //     });
+                    // }
 
                     // Sorting based on selected criteria
                     if (this.sortOption && this.sortOrder) {
@@ -258,13 +345,6 @@
 
                     return filtered;
                 },
-                placeholderColumns() {
-                    // Calculate placeholders to keep 4 columns
-                    const lessonsCount = this.sortedLessons.length;
-                    const columns = 4; // Number of columns in the grid
-                    const placeholders = (columns - (lessonsCount % columns)) % columns;
-                    return Array.from({ length: placeholders });
-                }
             }
         })
     </script>
