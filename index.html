@@ -14,8 +14,7 @@
 </head>
 <body>
     <div id="webstore">
-        
-
+        <!-- Header -->
         <div v-if="showLesson">
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom rounded-4 border-3 sticky-top bg-white">
                 <a class="fs-1 fw-bold font" href="#">After School Classes and Activities</a>
@@ -27,6 +26,7 @@
             </div>
 
             <div class="container-fluid">
+                <!-- Sort section -->
                 <div class="mt-4 text-center">
                     <p class="fs-5 fw-bold font">{{ sort_section }}</p>
                     <button class="btn border rounded-pill" type="button" v-on:click="clearSorting">Clear</button>
@@ -50,6 +50,7 @@
                     <label for="descending">Descending</label>
                 </div>
 
+                <!-- Lesson section -->
                 <div class="mt-1">
                     <h2 class="fw-bold font">{{ lesson_section }}</h2>
                     <div class="row mt-4">
@@ -73,12 +74,14 @@
         </div>
 
         <div v-else>
+            <!-- Header -->
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom rounded-4 border-3 sticky-top bg-white">
                 <a class="fs-1 fw-bold font" href="#">After School Classes and Activities</a>
                 <button class="btn button-2 rounded-pill" v-on:click="showCart">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
             </div>
 
             <div class="container-fluid mt-3">
+                <!-- Cart section -->
                 <h2 class="fw-bold font">Cart</h2>
                 <div class="row mt-4">
                     <div class="col-3 mb-4" v-for="item in cart" :key="item.id">
@@ -96,6 +99,7 @@
                     </div>
                 </div>
 
+                <!-- Checkout section -->
                 <h2 class="fw-bold font text-center">Checkout</h2>
                 <div class="text-center mt-4">
                     <form>
@@ -302,19 +306,6 @@
                 },
                 sortedLessons() {
                     let filtered = [...this.lessons]; // Copy the lessons array to avoid mutating the original array
-
-                    // // Apply search filter if there's a query
-                    // if (this.searchQuery) {
-                    //     const query = this.searchQuery.toLowerCase();
-                    //     filtered = filtered.filter(lesson => {
-                    //         return (
-                    //             lesson.subject.toLowerCase().includes(query) || 
-                    //             lesson.location.toLowerCase().includes(query) || 
-                    //             lesson.price.toString().includes(query) || 
-                    //             lesson.spaces.toString().includes(query)
-                    //         );
-                    //     });
-                    // }
 
                     // Sorting based on selected criteria
                     if (this.sortOption && this.sortOrder) {
