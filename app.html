@@ -9,46 +9,44 @@
     <link href="https://fonts.cdnfonts.com/css/hunck" rel="stylesheet">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <link rel="stylesheet" href="custom.css">
-    <script src="lessons.js"></script>
     <title>After School Classes and Activities</title>
 </head>
 <body>
     <div id="webstore">
-        <app-nav class="d-flex justify-content-between align-items-center p-3 border-bottom rounded-4 border-3 sticky-top bg-white">
-            <a class="fs-1 fw-bold font" href="#">After School Classes and Activities</a>
-            <button class="btn button-2 rounded-pill" v-if="itemInCart > 0" v-on:click="showCart">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
-            <button v-if="itemInCart < 0 && !showLesson" class="btn button-1 rounded-pill mt-3" v-on:click="showCart = !showCart">Back to Lessons</button>
-        </app-nav>
+        
 
         <div v-if="showLesson">
-            <div class="d-flex justify-content-center mt-4">
-                <input type="text" id="search" class="form-control border-0 border-bottom w-50" placeholder="Search" v-model="searchQuery">
-            </div>
-            <div class="container-fluid d-flex">
-                <div class="mt-5 fit-content w-50">
+            <app-nav class="d-flex justify-content-between align-items-center p-3 border-bottom rounded-4 border-3 sticky-top bg-white">
+                <a class="fs-1 fw-bold font" href="#">After School Classes and Activities</a>
+                
+                <input type="text" id="search" class="form-control border-0 border-bottom w-25" placeholder="Search" v-model="searchQuery">
+                
+                <button class="btn button-2 rounded-pill" v-if="itemInCart > 0" v-on:click="showCart">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
+                <button class="btn rounded-pill" v-else :disabled="true">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
+            </app-nav>
+
+            <div class="container-fluid">
+                <div class="mt-4 text-center">
                     <p class="fs-5 fw-bold font">{{ sort_section }}</p>
-                    <div>
-                        <button class="btn button-1 rounded-pill" v-on:click="clearSorting">Clear</button>
-                        <br><br>
-            
-                        <input type="radio" id="subject" value="Subject" v-model="sortOption">
-                        <label for="subject">Subject</label>
-                        <br>
-                        <input type="radio" id="location" value="Location" v-model="sortOption">
-                        <label for="location">Location</label>
-                        <br>
-                        <input type="radio" id="price" value="Price" v-model="sortOption">
-                        <label for="price">Price</label>
-                        <br>
-                        <input type="radio" id="availability" value="Availability" v-model="sortOption">
-                        <label for="availability">Availability</label>
-                        <br><br>
-                        <input type="radio" id="ascending" value="Ascending" v-model="sortOrder">
-                        <label for="ascending">Ascending</label>
-                        <br>
-                        <input type="radio" id="descending" value="Descending" v-model="sortOrder">
-                        <label for="descending">Descending</label>
-                    </div>                
+                    <button class="btn border rounded-pill" type="button" v-on:click="clearSorting">Clear</button>
+                    <br><br>
+                    <input type="radio" id="subject" value="Subject" v-model="sortOption">
+                    <label for="subject">Subject</label>
+                    
+                    <input type="radio" id="location" value="Location" v-model="sortOption">
+                    <label for="location">Location</label>
+                    
+                    <input type="radio" id="price" value="Price" v-model="sortOption">
+                    <label for="price">Price</label>
+                    
+                    <input type="radio" id="availability" value="Availability" v-model="sortOption">
+                    <label for="availability" class="me-5">Availability</label>
+                    
+                    <input type="radio" id="ascending" value="Ascending" v-model="sortOrder">
+                    <label for="ascending">Ascending</label>
+                    
+                    <input type="radio" id="descending" value="Descending" v-model="sortOrder">
+                    <label for="descending">Descending</label>
                 </div>
 
                 <div class="mt-1">
@@ -64,62 +62,67 @@
                                     <p>Spaces: {{ lesson.spaces }}</p>
 
                                     <button class="btn button-1 rounded-pill" v-if="canAddToCart(lesson)" v-on:click="addItemToCart(lesson)">Add to Cart</button>
-                                    <button class="rounded-pill" v-else :disabled="true">Add to Cart</button>
+                                    <button class="btn rounded-pill" v-else :disabled="true">Add to Cart</button>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="col-3 mb-4" v-for="index in placeholderColumns" :key="'placeholder-' + index">
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div v-else class="ms-5">
-            <h2 class="fw-bold font">Cart</h2>
-            <div class="row mt-4">
-                <div class="col-2 mb-4 bg-white" v-for="item in cart" :key="item.id">
-                    <div class="card h-100 border border-secondary bg-transparent">
-                        <div class="card-body text-center">
-                            <img v-bind:src="item.image" style="width:120px; height:120px;">
-                            <h4 class="font" v-text="item.subject"></h4>
-                            <p>Location: {{ item.location }}</p>
-                            <p>Price £ {{ item.price }}</p>
-                            <p>Spaces: {{ item.spaces }}</p>
-        
-                            <button class="btn button-1 rounded-pill" v-on:click="removeItemFromCart(item)">Remove</button>
+        <div v-else>
+            <app-nav class="d-flex justify-content-between align-items-center p-3 border-bottom rounded-4 border-3 sticky-top bg-white">
+                <a class="fs-1 fw-bold font" href="#">After School Classes and Activities</a>
+                <button class="btn button-2 rounded-pill" v-on:click="showCart">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
+            </app-nav>
+
+            <div class="container-fluid mt-3">
+                <h2 class="fw-bold font">Cart</h2>
+                <div class="row mt-4">
+                    <div class="col-3 mb-4" v-for="item in cart" :key="item.id">
+                        <div class="card h-100 border border-secondary bg-transparent">
+                            <div class="card-body text-center">
+                                <img v-bind:src="item.image" style="width:120px; height:120px;">
+                                <h4 class="font" v-text="item.subject"></h4>
+                                <p>Location: {{ item.location }}</p>
+                                <p>Price £ {{ item.price }}</p>
+                                <p>Spaces: {{ item.spaces }}</p>
+                                
+                                <button class="btn button-1 rounded-pill" v-on:click="removeItemFromCart(item)">Remove</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <h2 class="fw-bold font text-center">Checkout</h2>
+                <div class="text-center mt-4">
+                    <form>
+                        <div class="row text-center">
+                            <div class="col-6 d-flex">
+                                <label for="name" class="form-label fw-bold me-2">Name:</label>
+                                <input type="text" id="name" class="form-control border-0 border-bottom w-50" v-model="checkout.name" v-on:input="validateName">
+                            </div>
+                            
+                            <div class="col-6 d-flex">
+                                <label for="phone" class="form-label fw-bold me-2">Phone number:</label>
+                                <input type="text" id="phone" class="form-control border-0 border-bottom w-50" v-model="checkout.phone" v-on:input="validatePhone">
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-6 d-flex">
+                                <small v-if="nameError" class="text-danger">{{ nameError }}</small>
+                            </div>
+                            <div class="col-6 d-flex">
+                                <small v-if="phoneError" class="text-danger">{{ phoneError }}</small>
+                            </div>
+                        </div>
+                        <button class="mt-5 mb-5 btn btn-success text-center" type="button" :disabled="!checkout.name || !checkout.phone" v-on:click="checkOut">Checkout</button>
+                    </form>
+                </div>
             </div>
 
-            <h2 class="fw-bold font text-center">Checkout</h2>
-            <div class="text-center mt-4">
-                <form>
-                    <div class="row text-center">
-                        <div class="col-6 d-flex">
-                            <label for="name" class="form-label fw-bold me-2">Name:</label>
-                            <input type="text" id="name" class="form-control border-0 border-bottom w-50" v-model="checkout.name" v-on:input="validateName">
-                        </div>
-                        
-                        <div class="col-6 d-flex">
-                            <label for="phone" class="form-label fw-bold me-2">Phone number:</label>
-                            <input type="text" id="phone" class="form-control border-0 border-bottom w-50" v-model="checkout.phone" v-on:input="validatePhone">
-                        </div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="col-6 d-flex">
-                            <small v-if="nameError" class="text-danger">{{ nameError }}</small>
-                        </div>
-                        <div class="col-6 d-flex">
-                            <small v-if="phoneError" class="text-danger">{{ phoneError }}</small>
-                        </div>
-                    </div>
-                    <button class="mt-5 mb-5 btn btn-success text-center" type="button" :disabled="!checkout.name || !checkout.phone" v-on:click="checkOut">Checkout</button>
-                </form>
-            </div>
+            
         </div>
     </div>
 
@@ -127,19 +130,25 @@
         let webstore = new Vue({
             el: '#webstore',
             data: {
+                showLesson: true,
                 lesson_section: 'Lessons',
                 sort_section: 'Sort by',
-                lessons: lessons,
-                showLesson: true,
+                lessons: [],
                 cart: [],
                 checkout: {
-                    name: '',
-                    phone: ''
+                    name: "",
+                    phone: ""
                 },
                 sortOption: '',
                 sortOrder: '',
                 searchQuery: '',
             },
+            created: function() {
+                fetch("http://localhost:3000/collections/lessons").then(
+                    function(response) {
+                        response.json().then(function(json) {webstore.lessons = json;})}
+                     );
+        },
             methods:{
                 addItemToCart(lesson) {
                     if (this.canAddToCart(lesson)) {
