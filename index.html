@@ -255,7 +255,7 @@
                 },
                 updateLessonSpaces() {
                     const updatePromises = this.cart.map(item => {
-                        return fetch(`https://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/collections/lessons/${item.id}`, {
+                        return fetch("https://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/collections/lessons/${item.id}", {
                             method: "PUT",
                             headers: {"Content-Type": "application/json",},
                             body: JSON.stringify({ spaces: item.spaces }),
@@ -278,7 +278,7 @@
                         });
                 },
                 searchLessons(searchTerm = '') {
-                    fetch(`https://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/search?q=${encodeURIComponent(searchTerm)}`)
+                    fetch("https://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/search?q=${encodeURIComponent(searchTerm)}")
                         .then(response => response.json())
                         .then(data => {
                             webstore.lessons = data;
