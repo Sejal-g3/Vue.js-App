@@ -201,7 +201,7 @@
                     }
                 },
                 fetchLessons(){
-                    fetch("http://afterSchoolClassesBackend.ap-southeast-2.elasticbeanstalk.com/collections/lessons")
+                    fetch("http://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/collections/lessons")
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error("Failed to fetch lessons");
@@ -218,7 +218,7 @@
                     ;    
                 },
                 saveOrder(orderDetails) {
-                    fetch("http://afterSchoolClassesBackend.ap-southeast-2.elasticbeanstalk.com/collections/orders", {
+                    fetch("http://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/collections/orders", {
                         method: "POST",
                         headers: {"Content-Type": "application/json",},
                         body: JSON.stringify(orderDetails),
@@ -255,7 +255,7 @@
                 },
                 updateLessonSpaces() {
                     const updatePromises = this.cart.map(item => {
-                        return fetch(`http://afterSchoolClassesBackend.ap-southeast-2.elasticbeanstalk.com/collections/lessons/${item.id}`, {
+                        return fetch(`http://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/collections/lessons/${item.id}`, {
                             method: "PUT",
                             headers: {"Content-Type": "application/json",},
                             body: JSON.stringify({ spaces: item.spaces }),
@@ -278,7 +278,7 @@
                         });
                 },
                 searchLessons(searchTerm = '') {
-                    fetch(`http://afterSchoolClassesBackend.ap-southeast-2.elasticbeanstalk.com/search?q=${encodeURIComponent(searchTerm)}`)
+                    fetch(`http://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/search?q=${encodeURIComponent(searchTerm)}`)
                         .then(response => response.json())
                         .then(data => {
                             webstore.lessons = data;
