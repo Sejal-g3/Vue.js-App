@@ -200,7 +200,7 @@
                     }
                 },
                 fetchLessons(){
-                    fetch("http://localhost:3000/collections/lessons")
+                    fetch("https://afterSchoolClassesBackend.ap-southeast-2.elasticbeanstalk.com/collections/lessons")
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error("Failed to fetch lessons");
