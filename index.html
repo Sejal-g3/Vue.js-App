@@ -261,10 +261,10 @@
                 },
                 updateLessonSpaces() {
                     const updatePromises = this.cart.map(item => {
-                        return fetch( `https://express-js-app-wwpk.onrender.com/collections/lessons/${lesson.id}`, {
+                        return fetch( `https://express-js-app-wwpk.onrender.com/collections/lessons/${item.id}`, {
                             method: "PUT",
                             headers: {"Content-Type": "application/json",},
-                            body: JSON.stringify({ spaces: lesson.spaces }),
+                            body: JSON.stringify({ spaces: item.spaces }),
                         })
                         .then(response => {
                             if (!response.ok) {
