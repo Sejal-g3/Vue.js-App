@@ -205,7 +205,7 @@
                     }
                 },
                 fetchLessons(){
-                    fetch("https://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/collections/lessons")
+                    fetch("https://express-js-app-wwpk.onrender.com/collections/lessons")
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error("Failed to fetch lessons");
@@ -222,7 +222,7 @@
                     ;    
                 },
                 saveOrder(orderDetails) {
-                    fetch("https://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/collections/orders", {
+                    fetch("https://express-js-app-wwpk.onrender.com/collections/orders", {
                         method: "POST",
                         headers: {"Content-Type": "application/json",},
                         body: JSON.stringify(orderDetails),
@@ -259,7 +259,7 @@
                 },
                 updateLessonSpaces() {
                     const updatePromises = this.cart.map(item => {
-                        return fetch("https://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/collections/lessons/${item.id}", {
+                        return fetch("https://express-js-app-wwpk.onrender.com/collections/lessons/${item.id}", {
                             method: "PUT",
                             headers: {"Content-Type": "application/json",},
                             body: JSON.stringify({ spaces: item.spaces }),
@@ -282,7 +282,7 @@
                         });
                 },
                 searchLessons(searchTerm = '') {
-                    fetch("https://afterschoolclassesbackend.ap-southeast-2.elasticbeanstalk.com/search?q=${encodeURIComponent(searchTerm)}")
+                    fetch("https://express-js-app-wwpk.onrender.com/search?q=${encodeURIComponent(searchTerm)}")
                         .then(response => response.json())
                         .then(data => {
                             webstore.lessons = data;
