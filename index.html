@@ -145,7 +145,6 @@
                 sortOption: '',
                 sortOrder: '',
                 searchTerm: '',
-                searchQuery: '',
             },
             created: function() {
                 this.fetchLessons();
@@ -179,11 +178,6 @@
                 removeItemFromCart(item) {
                     item.spaces += 1;
                     this.cart = this.cart.filter((lesson) => lesson.id !== item.id);
-                    // const index = this.cart.findIndex(cartItem => cartItem.id === item.id);
-                    // if (index !== -1) {
-                    //     this.cart.splice(index, 1); // Remove item by index
-                    //     item.spaces += 1; // Restore the space count
-                    // }
                 },
                 clearSorting() {
                     this.sortOption = '';
