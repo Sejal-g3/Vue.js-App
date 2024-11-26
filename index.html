@@ -84,16 +84,16 @@
                 <!-- Cart section -->
                 <h2 class="fw-bold font">Cart</h2>
                 <div class="row mt-4">
-                    <div class="col-3 mb-4" v-for="item in cart" :key="lesson.id">
+                    <div class="col-3 mb-4" v-for="item in cart" :key="item.id">
                         <div class="card h-100 border border-secondary bg-transparent">
                             <div class="card-body text-center">
-                                <img v-bind:src="lesson.image" style="width:120px; height:120px;">
-                                <h4 class="font" v-text="lesson.subject"></h4>
-                                <p>Location: {{ lesson.location }}</p>
-                                <p>Price £ {{ lesson.price }}</p>
-                                <p>Spaces: {{ lesson.spaces }}</p>
+                                <img v-bind:src="item.image" style="width:120px; height:120px;">
+                                <h4 class="font" v-text="item.subject"></h4>
+                                <p>Location: {{ item.location }}</p>
+                                <p>Price £ {{ item.price }}</p>
+                                <p>Spaces: {{ item.spaces }}</p>
                                 
-                                <button class="btn button-1 rounded-pill" v-on:click="removeItemFromCart(lesson)">Remove</button>
+                                <button class="btn button-1 rounded-pill" v-on:click="removeItemFromCart(item)">Remove</button>
                             </div>
                         </div>
                     </div>
@@ -262,30 +262,30 @@
                         alert("Your cart is empty.");
                     }
                 },
-                updateLessonSpaces() {
-                    const updatePromises = this.cart.map(lesson => {
-                        return fetch( `https://express-js-app-wwpk.onrender.com/collections/lessons/${lesson.id}`, {
-                            method: "PUT",
-                            headers: {"Content-Type": "application/json",},
-                            body: JSON.stringify({ spaces: lesson.spaces }),
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`Failed to update lesson spaces for ID ${lesson.id}`);
-                            }
-                            return response.json();
-                        });
-                    });
+                // updateLessonSpaces() {
+                //     const updatePromises = this.cart.map(lesson => {
+                //         return fetch( `https://express-js-app-wwpk.onrender.com/collections/lessons/${lesson.id}`, {
+                //             method: "PUT",
+                //             headers: {"Content-Type": "application/json",},
+                //             body: JSON.stringify({ spaces: lesson.spaces }),
+                //         })
+                //         .then(response => {
+                //             if (!response.ok) {
+                //                 throw new Error(`Failed to update lesson spaces for ID ${lesson.id}`);
+                //             }
+                //             return response.json();
+                //         });
+                //     });
 
-                    Promise.all(updatePromises)
-                        .then(() => {
-                            alert("Lesson spaces updated successfully!");
-                        })
-                        .catch(error => {
-                            console.error("Error updating lesson spaces:", error);
-                            alert("Failed to update lesson availability.");
-                        });
-                },
+                //     Promise.all(updatePromises)
+                //         .then(() => {
+                //             alert("Lesson spaces updated successfully!");
+                //         })
+                //         .catch(error => {
+                //             console.error("Error updating lesson spaces:", error);
+                //             alert("Failed to update lesson availability.");
+                //         });
+                // },
                 searchLessons(searchTerm = '') {
                     fetch(`https://express-js-app-wwpk.onrender.com/search?q=${encodeURIComponent(searchTerm)}`)
                         .then(response => response.json())
