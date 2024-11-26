@@ -305,7 +305,7 @@
                     }
                 },
                 sortedLessons() {
-                    let filtered = [...webstore.lessons]; // Copy the lessons array to avoid mutating the original array
+                    let filtered = [...this.lessons]; // Copy the lessons array to avoid mutating the original array
 
                     // Sorting based on selected criteria
                     if (this.sortOption && this.sortOrder) {
