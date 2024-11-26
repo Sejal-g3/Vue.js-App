@@ -19,8 +19,7 @@
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom rounded-4 border-3 sticky-top bg-white">
                 <a class="fs-1 fw-bold font" href="#">After School Classes and Activities</a>
                 
-                <input type="text" id="search" class="form-control border-0 border-bottom w-25" placeholder="Search" v-on:input="fetchLessons(searchQuery)">
-                <!-- <input type="text" id="search" class="form-control border-0 border-bottom w-25" placeholder="Search" v-model="searchQuery"> -->
+                <input type="text" id="search" class="form-control border-0 border-bottom w-25" placeholder="Search" v-model="searchQuery">
                 
                 <button class="btn button-2 rounded-pill" v-if="itemInCart > 0" v-on:click="showCart">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
                 <button class="btn rounded-pill" v-else :disabled="true">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
@@ -85,16 +84,16 @@
                 <!-- Cart section -->
                 <h2 class="fw-bold font">Cart</h2>
                 <div class="row mt-4">
-                    <div class="col-3 mb-4" v-for="item in cart" :key="item.id">
+                    <div class="col-3 mb-4" v-for="item in cart" :key="lesson.id">
                         <div class="card h-100 border border-secondary bg-transparent">
                             <div class="card-body text-center">
-                                <img v-bind:src="item.image" style="width:120px; height:120px;">
-                                <h4 class="font" v-text="item.subject"></h4>
-                                <p>Location: {{ item.location }}</p>
-                                <p>Price £ {{ item.price }}</p>
-                                <p>Spaces: {{ item.spaces }}</p>
+                                <img v-bind:src="lesson.image" style="width:120px; height:120px;">
+                                <h4 class="font" v-text="lesson.subject"></h4>
+                                <p>Location: {{ lesson.location }}</p>
+                                <p>Price £ {{ lesson.price }}</p>
+                                <p>Spaces: {{ lesson.spaces }}</p>
                                 
-                                <button class="btn button-1 rounded-pill" v-on:click="removeItemFromCart(item)">Remove</button>
+                                <button class="btn button-1 rounded-pill" v-on:click="removeItemFromCart(lesson)">Remove</button>
                             </div>
                         </div>
                     </div>
@@ -145,7 +144,6 @@
                 },
                 sortOption: '',
                 sortOrder: '',
-                searchTerm: '',
                 searchQuery: '',
             },
             created: function() {
@@ -178,8 +176,13 @@
                     }
                 },
                 removeItemFromCart(item) {
-                    item.spaces += 1;
-                    this.cart = this.cart.filter((lesson) => lesson.id !== item.id);
+                    // item.spaces += 1;
+                    // this.cart = this.cart.filter((lesson) => lesson.id !== item.id);
+                    const index = this.cart.findIndex(cartItem => cartItem.id === item.id);
+                    if (index !== -1) {
+                        this.cart.splice(index, 1); // Remove item by index
+                        item.spaces += 1; // Restore the space count
+                    }
                 },
                 clearSorting() {
                     this.sortOption = '';
@@ -260,15 +263,15 @@
                     }
                 },
                 updateLessonSpaces() {
-                    const updatePromises = this.cart.map(item => {
-                        return fetch( `https://express-js-app-wwpk.onrender.com/collections/lessons/${item.id}`, {
+                    const updatePromises = this.cart.map(lesson => {
+                        return fetch( `https://express-js-app-wwpk.onrender.com/collections/lessons/${lesson.id}`, {
                             method: "PUT",
                             headers: {"Content-Type": "application/json",},
-                            body: JSON.stringify({ spaces: item.spaces }),
+                            body: JSON.stringify({ spaces: lesson.spaces }),
                         })
                         .then(response => {
                             if (!response.ok) {
-                                throw new Error(`Failed to update lesson spaces for ID ${item.id}`);
+                                throw new Error(`Failed to update lesson spaces for ID ${lesson.id}`);
                             }
                             return response.json();
                         });
@@ -308,19 +311,6 @@
                 },
                 sortedLessons() {
                     let filtered = [...webstore.lessons]; // Copy the lessons array to avoid mutating the original array
-
-                    // // Apply search filter if there's a query
-                    // if (this.searchQuery) {
-                    //     const query = this.searchQuery.toLowerCase();
-                    //     filtered = filtered.filter(lesson => {
-                    //         return (
-                    //             lesson.subject.toLowerCase().includes(query) || 
-                    //             lesson.location.toLowerCase().includes(query) || 
-                    //             lesson.price.toString().includes(query) || 
-                    //             lesson.spaces.toString().includes(query)
-                    //         );
-                    //     });
-                    // }
 
                     // Sorting based on selected criteria
                     if (this.sortOption && this.sortOrder) {
