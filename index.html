@@ -20,7 +20,7 @@
                 <a class="fs-1 fw-bold font" href="#">After School Classes and Activities</a>
                 
                 <!-- <input type="text" id="search" class="form-control border-0 border-bottom w-25" placeholder="Search" v-on:input="fetchLessons(searchQuery)"> -->
-                <input type="text" id="search" class="form-control border-0 border-bottom w-50" placeholder="Search" v-model="searchQuery">
+                <input type="text" id="search" class="form-control border-0 border-bottom w-25" placeholder="Search" v-model="searchQuery">
                 
                 <button class="btn button-2 rounded-pill" v-if="itemInCart > 0" v-on:click="showCart">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
                 <button class="btn rounded-pill" v-else :disabled="true">{{ itemInCart }} <span class="fa-solid fa-cart-shopping"></span> Cart</button>
@@ -146,6 +146,7 @@
                 sortOption: '',
                 sortOrder: '',
                 searchTerm: '',
+                searchQuery: '',
             },
             created: function() {
                 this.fetchLessons();
