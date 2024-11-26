@@ -259,7 +259,7 @@
                 },
                 updateLessonSpaces() {
                     const updatePromises = this.cart.map(item => {
-                        return fetch("https://express-js-app-wwpk.onrender.com/collections/lessons/${item.id}", {
+                        return fetch( `https://express-js-app-wwpk.onrender.com/collections/lessons/${item.id}`, {
                             method: "PUT",
                             headers: {"Content-Type": "application/json",},
                             body: JSON.stringify({ spaces: item.spaces }),
@@ -282,7 +282,7 @@
                         });
                 },
                 searchLessons(searchTerm = '') {
-                    fetch("https://express-js-app-wwpk.onrender.com/search?q=${encodeURIComponent(searchTerm)}")
+                    fetch(`https://express-js-app-wwpk.onrender.com/search?q=${encodeURIComponent(searchTerm)}`)
                         .then(response => response.json())
                         .then(data => {
                             webstore.lessons = data;
